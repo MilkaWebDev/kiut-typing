@@ -70,6 +70,14 @@
 
 }
 
+.selected-word {
+  margin: 0.5rem 1rem 0.5rem 0;
+  font-size: 28px;
+  font-weight: 500;
+  text-shadow: 2px 2px 2px pink;
+  font-family: 'Inconsolata', monospace;
+}
+
 .title {
   color: red;
   font-size: 45px;

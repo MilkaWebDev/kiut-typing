@@ -5,7 +5,10 @@ import words from '../api/words'
 
 const Typing = ({ user }) => {
 
-    const [displayWords, setDisplayWords] = useState([])
+    const [displayWords, setDisplayWords] = useState([]);
+    const [selectWord, setSelectWord] = useState("");
+    //actualiza cuando toco barra
+    const [count, setCount] = useState(0);
 
     const qWords = (x) => {
 
@@ -13,9 +16,22 @@ const Typing = ({ user }) => {
         let palabras = []
         for (let i = 0; i < x; i++) {
             let random = Math.floor(Math.random() * (x - 1));
-            palabras.push(words[random])
+            palabras.push({ palabra: words[random] })
         }
         setDisplayWords(palabras)
+    }
+
+    const handleWord = (e) => {
+        setSelectWord(e.target.value)
+    }
+
+    //falta cambiar clase si es true o false
+    const verifyWord = (e) => {
+        e.preventDefault()
+        if (displayWords[count] === selectWord) console.log(true)
+        else console.log(false)
+        setCount(count + 1)
+        setSelectWord("")
     }
 
     useEffect(() => {
@@ -24,7 +40,7 @@ const Typing = ({ user }) => {
 
 
     useEffect(() => {
-        qWords(25)
+        qWords(25);
     }, [])
 
 
@@ -42,13 +58,22 @@ const Typing = ({ user }) => {
                 </div>
 
                 <div className='words-container'>
-                    {displayWords.map(word =>
-                        <span className='words'>{word}</span>
+                    {displayWords.map((item, index) =>
+                        <span className={count === index ? 'selected-word' : 'words'}>{item.palabra}</span>
                     )}
                 </div>
 
                 <form className='form2'>
-                    <input type="name" className='words-input' />
+                    <input
+                        type="name"
+                        value={selectWord}
+                        onChange={handleWord}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                verifyWord(e);
+                            }
+                        }}
+                        className='words-input' />
                     <button className='reset-button'>
                         reset
                     </button>
